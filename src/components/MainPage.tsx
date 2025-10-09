@@ -11,7 +11,7 @@ function MainPage({ children }: MainPage) {
     return (
         <div className="align-self-center text-center col-10 col-md-8 col-xxl-6">
             <div className="card">
-                <div className="card-body d-flex flex-column flex-md-row flex-wrap flex-md-nowrap justify-content-between align-items-center m-5
+                <div className="card-body d-flex flex-column flex-md-nowrap justify-content-between align-items-center m-5
             gap-4 "
                 >
                     <div className="d-flex gap-2">
