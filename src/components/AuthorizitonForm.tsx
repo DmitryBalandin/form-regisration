@@ -3,7 +3,13 @@ import * as Yup from 'yup'
 
 
 function AuthorizitonForm() {
-    const validationSchema = ''
+    const validationSchema = Yup.object().shape({
+        email: Yup.string()
+            .email('Введите корректный Email')
+            .required('Введите Email'),
+        password: Yup.string()
+            .required('Введите Password'),
+    })
     const handleSubmit = () => { }
     return (
         <div className="flex-grow-1 align-self-stretch ">
@@ -11,12 +17,11 @@ function AuthorizitonForm() {
                 initialValues={{
                     email: '',
                     password: '',
-                    confirmPassword: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
-                {({ isSubmitting, status, errors, touched, setStatus }) => (
+                {({ isSubmitting, status, errors, touched, setStatus, isValid, dirty }) => (
                     <Form>
                         <div className="input-group has-validation">
 
@@ -31,6 +36,8 @@ function AuthorizitonForm() {
                                 }}
 
                             />
+                            <ErrorMessage name="email">{msg => <div className="invalid-tooltip">{msg}</div>}</ErrorMessage>
+                            {!(touched.email && errors.email) && status && <div className="invalid-tooltip">{status}</div>}
                         </div>
                         <div className="input-group has-validation">
                             <Field
@@ -39,10 +46,15 @@ function AuthorizitonForm() {
                                 name="password"
                                 placeholder={'Password'}
                                 id="password"
+                                validate={() => {
+                                    setStatus(null)
+                                }}
                             />
+                                 <ErrorMessage name="password">{msg => <div className="invalid-tooltip">{msg}</div>}</ErrorMessage>
+                            {!(touched.password && errors.password) && status && <div className="invalid-tooltip">{status}</div>}
                         </div>
-                        <button type="submit" className="btn btn-outline-primary w-100 rounded-1" disabled={isSubmitting}>
-                            {isSubmitting ? `sada` : 'asas'}
+                        <button type="submit" className={`btn ${isValid && dirty ? 'btn-primary' : 'btn-outline'}  w-100 rounded-1`} disabled={isSubmitting || !isValid ||!dirty }>
+                            {isSubmitting ? `Wait...` : 'Login'}
                         </button>
                     </Form>
                 )}
