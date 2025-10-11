@@ -1,5 +1,5 @@
 @use "bootstrap/scss/bootstrap";
-.placeholder-with-icon-email {
+.form-control.placeholder-with-icon-email {
     background-image:url('../assets/Icon\ _\ UserOutlined.svg');
     background-repeat: no-repeat;
     background-position: left 12px center;
@@ -7,7 +7,7 @@
     padding-left: 40px;
 }
 
-.placeholder-with-icon-password {
+.form-control.placeholder-with-icon-password {
     background-image:url('../assets/Icon\ _\ LockOutlined.svg');
     background-repeat: no-repeat;
     background-position: left 12px center;

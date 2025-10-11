@@ -1,8 +1,13 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-
+import { useDispatch } from 'react-redux';
+import { useLogin } from '../api/authApi'
+import { setUsersData } from '../slices/authSlice';
 
 function AuthorizitonForm() {
+    const loginMutation = useLogin();
+    const dispatch = useDispatch();
+
     const validationSchema = Yup.object().shape({
         email: Yup.string()
             .email('Введите корректный Email')
@@ -10,7 +15,20 @@ function AuthorizitonForm() {
         password: Yup.string()
             .required('Введите Password'),
     })
-    const handleSubmit = () => { }
+    // const handleSubmit = () =>{}
+    const handleSubmit = async (values: any) => {
+        try {
+           const response =  await loginMutation.mutateAsync(values);
+            // В реальном приложении здесь была бы обработка успешного входа
+            console.log('Login successful!', response);
+            const {token} = response
+            const {username} = response
+            dispatch(setUsersData({token,username}))
+        } catch (error) {
+            // Ошибка обрабатывается автоматически через React Query
+            console.error('Login failed:', error);
+        }
+    };
     return (
         <div className="flex-grow-1 align-self-stretch ">
             <Formik
@@ -50,10 +68,10 @@ function AuthorizitonForm() {
                                     setStatus(null)
                                 }}
                             />
-                                 <ErrorMessage name="password">{msg => <div className="invalid-tooltip">{msg}</div>}</ErrorMessage>
+                            <ErrorMessage name="password">{msg => <div className="invalid-tooltip">{msg}</div>}</ErrorMessage>
                             {!(touched.password && errors.password) && status && <div className="invalid-tooltip">{status}</div>}
                         </div>
-                        <button type="submit" className={`btn ${isValid && dirty ? 'btn-primary' : 'btn-outline'}  w-100 rounded-1`} disabled={isSubmitting || !isValid ||!dirty }>
+                        <button type="submit" className={`btn ${isValid && dirty ? 'btn-primary' : 'btn-outline'}  w-100 rounded-1`} disabled={isSubmitting || !isValid || !dirty}>
                             {isSubmitting ? `Wait...` : 'Login'}
                         </button>
                     </Form>
