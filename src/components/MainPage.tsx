@@ -9,7 +9,7 @@ interface MainPage {
 function MainPage({ children }: MainPage) {
 
     return (
-        <div className="align-self-center text-center col-10 col-md-8 col-xxl-6">
+        <div className="align-self-center text-center col-12 col-sm-10 col-md-8 col-xxl-6">
             <div className="card">
                 <div className="card-body d-flex flex-column flex-md-nowrap justify-content-between align-items-center m-5
             gap-4 "

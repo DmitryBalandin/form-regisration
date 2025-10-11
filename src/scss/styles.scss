@@ -14,3 +14,13 @@
     background-size: 16px;
     padding-left: 40px;
 }
+
+.fixed-width-45{
+    width: 45px !important;
+}
+
+.no-icon-is-invalid.is-invalid{
+    background-image:none;
+    padding-right: 12px;
+    border-width:1px;
+}
