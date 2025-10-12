@@ -1,9 +1,10 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLogin } from '../api/authApi'
 import { setUsersData } from '../slices/authSlice';
-
+import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../slices/errorsNetworkSlice';
+import store from '../slices/store';
 function AuthorizitonForm() {
     const loginMutation = useLogin();
     const dispatch = useDispatch();
@@ -15,18 +16,38 @@ function AuthorizitonForm() {
         password: Yup.string()
             .required('Введите Password'),
     })
-    // const handleSubmit = () =>{}
-    const handleSubmit = async (values: any) => {
+
+    const handleSubmit = async (values: any, { setStatus }: any) => {
+        dispatch(clearErrorNetwork())
+        setStatus(null)
         try {
-           const response =  await loginMutation.mutateAsync(values);
-            // В реальном приложении здесь была бы обработка успешного входа
+            const response = await loginMutation.mutateAsync(values);
             console.log('Login successful!', response);
-            const {token} = response
-            const {username} = response
-            dispatch(setUsersData({token,username}))
-        } catch (error) {
-            // Ошибка обрабатывается автоматически через React Query
+            const { token } = response
+            const { username } = response
+            dispatch(setUsersData({ token, username }))
+        } catch (error: any) {
+            if (error.code === 'NETWORK_ERROR') {
+                dispatch(setErrorNetwork({error:'Oтсутствует интернет-соединение или проблемы с сетью'}))
+            }
+            if (error.code === 'USER_NOT_FOUND') {
+                dispatch(setErrorNetwork({error:'Пользователь с таким email не существует'}))
+            }
+            if (error.code === 'INVALID_PASSWORD') {
+                dispatch(setErrorNetwork({error:'Неверный пароль для существующего пользователя'}))
+            }
+            if (error.code === 'VALIDATION_ERROR') {
+                dispatch(setErrorNetwork({error:'ошибки валидации'}))
+            }
+            if (error.code === 'ACCOUNT_LOCKED') {
+                dispatch(setErrorNetwork({error:'Аккаунт временно заблокирован'}))
+            }
             console.error('Login failed:', error);
+        } finally {
+            const { error } = selectErrorNetworks(store.getState())
+            if (error) {
+                setStatus(error)
+            }
         }
     };
     return (
@@ -55,7 +76,6 @@ function AuthorizitonForm() {
 
                             />
                             <ErrorMessage name="email">{msg => <div className="invalid-tooltip">{msg}</div>}</ErrorMessage>
-                            {!(touched.email && errors.email) && status && <div className="invalid-tooltip">{status}</div>}
                         </div>
                         <div className="input-group has-validation">
                             <Field
@@ -69,10 +89,14 @@ function AuthorizitonForm() {
                                 }}
                             />
                             <ErrorMessage name="password">{msg => <div className="invalid-tooltip">{msg}</div>}</ErrorMessage>
-                            {!(touched.password && errors.password) && status && <div className="invalid-tooltip">{status}</div>}
                         </div>
+
+                        {status && <div className="text-start text-danger mb-3  mt-2 small">
+                            {status}
+                        </div>}
+
                         <button type="submit" className={`btn ${isValid && dirty ? 'btn-primary' : 'btn-outline'}  w-100 rounded-1`} disabled={isSubmitting || !isValid || !dirty}>
-                            {isSubmitting ? `Wait...` : 'Login'}
+                            {isSubmitting ? `Wait...` : 'Log in'}
                         </button>
                     </Form>
                 )}
