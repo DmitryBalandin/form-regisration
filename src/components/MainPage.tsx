@@ -3,10 +3,11 @@ import signCompany from '../assets/Symbol.svg'
 
 interface MainPage {
     children: any
+    isAuthorization: boolean
 }
 
 
-function MainPage({ children }: MainPage) {
+function MainPage({ children, isAuthorization }: MainPage) {
 
     return (
         <div className="align-self-center text-center col-12 col-sm-10 col-md-8 col-xxl-6">
@@ -16,10 +17,18 @@ function MainPage({ children }: MainPage) {
                 >
                     <div className="d-flex gap-2">
                         <img src={signCompany} className='mb-2' alt="Sign Company" />
-                        <h1 className="h2 company-name">Company</h1>
+                        <h1 className="h2">Company</h1>
                     </div>
                     <div className="text-center mb-2">
-                        <p className="">Sign in to your account to continue</p>
+                        {isAuthorization ?
+                            <>
+                                <p className="fs-3 fw-weight-bolder text-reset">Two-Factor Authentication</p>
+                                <p className="">Enter the 6-digit code from the Google Authenticator app</p>
+                            </>
+                            :
+                            <p className="fs-3 fw-weight-bolder">Sign in to your account to continue</p>
+                        }
+
                     </div>
                     <div>{children}</div>
                 </div>

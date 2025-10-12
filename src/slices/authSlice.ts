@@ -25,6 +25,5 @@ const authSlice = createSlice({
 export const { setUsersData, clearUser } = authSlice.actions
 export default authSlice.reducer
 
-// Селекторы - теперь обращаемся к state.auth
 export const selectUsername = (state:any) => state.auth.username
 export const selectToken = (state:any)=> state.auth.token
