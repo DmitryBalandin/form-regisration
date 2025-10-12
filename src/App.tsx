@@ -3,7 +3,7 @@ import AuthorizitonForm from "./components/AuthorizitonForm"
 import AutheniticationForm from "./components/AutheniticationForm"
 import { useSelector } from 'react-redux';
 import { selectToken, selectUsername } from "./slices/authSlice"
-import store from './slices/store'
+
 
 function App() {
   const username = useSelector(selectUsername);
