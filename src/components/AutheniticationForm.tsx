@@ -14,7 +14,7 @@ function AutheniticationForm() {
     }
 
 
-    const onChange = (setFieldValue: any, index: number, values: any, setStatus: any, isValid: any) => (e: any) => {
+    const onChange = (setFieldValue: any, index: number, values: any, setStatus: any) => (e: any) => {
         const value = e.target.value.replace(/[^\d]/g, '');
         setStatus(false)
         setFieldValue(`code${index + 1}`, value)
@@ -116,7 +116,7 @@ function AutheniticationForm() {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
             >
-                {({ isSubmitting, status, errors, touched, setStatus, isValid, dirty, setFieldValue, values, setErrors }) => (
+                {({ isSubmitting, status, setStatus, isValid, dirty, setFieldValue, values }) => (
                     <Form >
                         <div className="mb-4 ">
                             <div className="d-flex justify-content-between gap-2 input-group flex-nowrap">
@@ -128,7 +128,7 @@ function AutheniticationForm() {
                                             type="text"
                                             maxLength="1"
                                             className={`form-control form-control-lg text-center fixed-width-45 ${isValid && !status && dirty ? 'no-icon-is-invalid is-invalid' : ''}`}
-                                            onChange={onChange(setFieldValue, index, values, setStatus, isValid)}
+                                            onChange={onChange(setFieldValue, index, values, setStatus)}
                                             onKeyDown={onKeyDown(setFieldValue, index)}
                                             onPaste={onPaste(setFieldValue, setStatus)}
                                             innerRef={(el: HTMLInputElement | null) => {
