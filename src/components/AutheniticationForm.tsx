@@ -1,8 +1,37 @@
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
+
 const CODE_AUTHENITICATION = 222222
+
 function AutheniticationForm() {
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [showGetNewButton, setShowGetNewButton] = useState<boolean>(false);
+    const [timeLeft, setTimeLeft] = useState<number>(10);
+
+    useEffect(() => {
+        const authTimer = setInterval(() => {
+            console.log(timeLeft)
+            if (isAuthenticated) {
+                clearInterval(authTimer)
+            }
+            setTimeLeft(prev => {
+                if (prev <= 0) {
+                    clearInterval(authTimer)
+                    setShowGetNewButton(true)
+                    return 0
+                }
+                return prev - 1
+            })
+        }, 1000)
+
+        return () => clearInterval(authTimer)
+    }, [isAuthenticated,showGetNewButton])
+
+    const handleRenewSession = () => {
+        setTimeLeft(10)
+        setShowGetNewButton(false)
+     }
 
     const handleSubmit = () => { };
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -21,7 +50,10 @@ function AutheniticationForm() {
         const inputedValues = values;
         inputedValues[`code${index + 1}`] = value;
         if (isAuthenitication(values)) {
+            setIsAuthenticated(true)
+
             setStatus(true)
+            console.log('Hello')
         }
         if (value && index < 5) {
             const nextInput = inputRefs.current[index + 1];
@@ -147,13 +179,16 @@ function AutheniticationForm() {
                                 </div>
                             )}
                         </div>
-
-                        {isValid && dirty && <button type="submit" className={`btn ${status && dirty ? 'btn-primary' : 'btn-outline'}  w-100 rounded-1`} disabled={isSubmitting || !status}>
+                        {!showGetNewButton && isValid && dirty && <button type="submit" className={`btn ${status && dirty ? 'btn-primary' : 'btn-outline'}  w-100 rounded-1`} disabled={isSubmitting || !status}>
                             {isSubmitting ? `Wait...` : 'Continue'}
                         </button>}
                     </Form>
                 )}
+
             </Formik>
+            {showGetNewButton && <button type="submit" onClick={handleRenewSession} className='btn btn-primary  w-100 rounded-1' >
+                Get new
+            </button>}
         </div>
     )
 }

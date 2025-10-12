@@ -97,7 +97,7 @@ export const loginUser = async (credentials: LoginFormData): Promise<AuthRespons
     }
 
     return {
-        token: 'mock_jwt_token_' + Math.random().toString(36).substr(2),
+        token: 'mock_jwt_token_mock_jwt_token_s1jirjirw1s',
         username: user.name,
         user: {
             id: 'user_' + Math.random().toString(36).substr(2),

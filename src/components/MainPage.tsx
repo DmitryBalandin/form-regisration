@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import { useDispatch } from 'react-redux'
 import { clearUser } from '../slices/authSlice'
 import { type AppDispatch } from '../slices/store'
+
 interface MainPage {
     children: ReactNode
     isAuthorization: boolean
