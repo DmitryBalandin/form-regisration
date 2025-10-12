@@ -1,0 +1,21 @@
+<svg viewBox="0 0 40 32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40.000000" height="32.000000" fill="none" customFrame="url(#clipPath_0)">
+	<defs>
+		<clipPath id="clipPath_0">
+			<rect width="40.000000" height="32.000000" x="0.000000" y="0.000000" rx="6.000000" fill="rgb(255,255,255)" />
+		</clipPath>
+		<clipPath id="clipPath_1">
+			<rect width="40.000000" height="40.000000" x="0.000000" y="-4.000000" fill="rgb(255,255,255)" />
+		</clipPath>
+		<clipPath id="clipPath_2">
+			<rect width="18.000000" height="18.000000" x="11.000000" y="7.000000" fill="rgb(255,255,255)" />
+		</clipPath>
+	</defs>
+	<rect id="Button / Variant (optional)" width="40.000000" height="32.000000" x="0.000000" y="0.000000" rx="6.000000" />
+	<g id="Content" customFrame="url(#clipPath_1)">
+		<rect id="Content" width="40.000000" height="40.000000" x="0.000000" y="-4.000000" />
+		<g id="Icon / ArrowLeftOutlined" clip-path="url(#clipPath_2)" customFrame="url(#clipPath_2)">
+			<rect id="Icon / ArrowLeftOutlined" width="18.000000" height="18.000000" x="11.000000" y="7.000000" fill="rgb(255,255,255)" fill-opacity="0" />
+			<path id="Vector" d="M26.3274 15.332L16.0424 15.332L22.1983 9.98828C22.2967 9.90215 22.2369 9.74219 22.1069 9.74219L20.5512 9.74219C20.4826 9.74219 20.4176 9.7668 20.3666 9.81074L13.7239 15.5746C13.663 15.6273 13.6142 15.6925 13.5808 15.7658C13.5473 15.839 13.53 15.9186 13.53 15.9991C13.53 16.0796 13.5473 16.1592 13.5808 16.2325C13.6142 16.3057 13.663 16.3709 13.7239 16.4236L20.4053 22.2227C20.4317 22.2455 20.4633 22.2578 20.4967 22.2578L22.1051 22.2578C22.2352 22.2578 22.2949 22.0961 22.1965 22.0117L16.0424 16.668L26.3274 16.668C26.4047 16.668 26.468 16.6047 26.468 16.5273L26.468 15.4727C26.468 15.3953 26.4047 15.332 26.3274 15.332Z" fill="rgb(0,0,0)" fill-opacity="0.879999995" fill-rule="nonzero" />
+		</g>
+	</g>
+</svg>
