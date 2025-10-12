@@ -3,11 +3,12 @@ import * as Yup from 'yup'
 import { useRef, useEffect, useState } from 'react';
 
 const CODE_AUTHENITICATION = 222222
+const TIME_FOR_AUTHENITICATION = 60
 
 function AutheniticationForm() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [showGetNewButton, setShowGetNewButton] = useState<boolean>(false);
-    const [timeLeft, setTimeLeft] = useState<number>(10);
+    const [timeLeft, setTimeLeft] = useState<number>(TIME_FOR_AUTHENITICATION);
 
     useEffect(() => {
         const authTimer = setInterval(() => {
@@ -29,11 +30,12 @@ function AutheniticationForm() {
     }, [isAuthenticated,showGetNewButton])
 
     const handleRenewSession = () => {
-        setTimeLeft(10)
+        setTimeLeft(TIME_FOR_AUTHENITICATION)
         setShowGetNewButton(false)
      }
 
     const handleSubmit = () => { };
+
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
     const isAuthenitication = (inputedValues: any) => {
