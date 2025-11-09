@@ -11,7 +11,7 @@ function App() {
 
   return (
      <div className="d-flex align-items-center justify-content-center vh-100 bg-light">
-          <MainPage isAuthorization={username && token}>
+          <MainPage isAuthorization={!!(username && token)}>
             {(username && token) ? <AutheniticationForm/> : <AuthorizitonForm/> }
           </MainPage>
        </div>
