@@ -1,20 +1,17 @@
 import MainPage from "./components/MainPage"
-import AuthorizitonForm from "./components/AuthorizitonForm"
-import AutheniticationForm from "./components/AutheniticationForm"
-import { useSelector } from 'react-redux';
-import { selectToken, selectUsername } from "./slices/authSlice"
+import AuthorizationForm from "./components/AuthorizationForm"
+import AuthenticationForm from "./components/AuthenticationForm"
+import { useAuth } from "./ hooks.ts/useAuth";
 
 
 function App() {
-  const username = useSelector(selectUsername);
-  const token = useSelector(selectToken);
-
+  const isAuthorized = useAuth();
   return (
-     <div className="d-flex align-items-center justify-content-center vh-100 bg-light">
-          <MainPage isAuthorization={!!(username && token)}>
-            {(username && token) ? <AutheniticationForm/> : <AuthorizitonForm/> }
-          </MainPage>
-       </div>
+    <div className="d-flex align-items-center justify-content-center vh-100 bg-light">
+      <MainPage isAuthorization={isAuthorized}>
+        {isAuthorized ? <AuthenticationForm /> : <AuthorizationForm />}
+      </MainPage>
+    </div>
   )
 }
 

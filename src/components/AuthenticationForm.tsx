@@ -5,7 +5,7 @@ import { useRef, useEffect, useState } from 'react';
 const CODE_AUTHENITICATION = 222222
 const TIME_FOR_AUTHENITICATION = 60
 
-function AutheniticationForm() {
+function AuthenticationForm() {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [showGetNewButton, setShowGetNewButton] = useState<boolean>(false);
     const [timeLeft, setTimeLeft] = useState<number>(TIME_FOR_AUTHENITICATION);
@@ -195,4 +195,4 @@ function AutheniticationForm() {
     )
 }
 
-export default AutheniticationForm
+export default AuthenticationForm

@@ -1,14 +1,15 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import { useDispatch} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLogin } from '../api/authApi'
 import { setUsersData } from '../slices/authSlice';
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../slices/errorsNetworkSlice';
+import type { UserData } from '../types/store/auth';
 import store from '../slices/store';
-function AuthorizitonForm() {
+function AuthorizationForm() {
     const loginMutation = useLogin();
     const dispatch = useDispatch();
-
+    const { error } = useSelector(selectErrorNetworks)
     const validationSchema = Yup.object().shape({
         email: Yup.string()
             .email('Введите корректный Email')
@@ -16,38 +17,40 @@ function AuthorizitonForm() {
         password: Yup.string()
             .required('Введите Password'),
     })
+    interface FormValues {
+        email: string;
+        password: string;
+    }
 
-    const handleSubmit = async (values: any, { setStatus }: any) => {
+    const handleSubmit = async (values: FormValues, { setStatus }: any) => {
         dispatch(clearErrorNetwork())
         setStatus(null)
         try {
             const response = await loginMutation.mutateAsync(values);
-            console.log('Login successful!', response);
-            const { token } = response
-            const { username } = response
+            console.log(response)
+            const { token, username } = response as UserData
+
             dispatch(setUsersData({ token, username }))
         } catch (error: any) {
+            console.log(error, typeof error)
             if (error.code === 'NETWORK_ERROR') {
-                dispatch(setErrorNetwork({error:'Oтсутствует интернет-соединение или проблемы с сетью'}))
+                dispatch(setErrorNetwork({ error: 'Oтсутствует интернет-соединение или проблемы с сетью' }))
             }
             if (error.code === 'USER_NOT_FOUND') {
-                dispatch(setErrorNetwork({error:'Пользователь с таким email не существует'}))
+                dispatch(setErrorNetwork({ error: 'Пользователь с таким email не существует' }))
             }
             if (error.code === 'INVALID_PASSWORD') {
-                dispatch(setErrorNetwork({error:'Неверный пароль для существующего пользователя'}))
+                dispatch(setErrorNetwork({ error: 'Неверный пароль для существующего пользователя' }))
             }
             if (error.code === 'VALIDATION_ERROR') {
-                dispatch(setErrorNetwork({error:'ошибки валидации'}))
+                dispatch(setErrorNetwork({ error: 'ошибки валидации' }))
             }
             if (error.code === 'ACCOUNT_LOCKED') {
-                dispatch(setErrorNetwork({error:'Аккаунт временно заблокирован'}))
+                dispatch(setErrorNetwork({ error: 'Аккаунт временно заблокирован' }))
             }
+            setStatus(error.code)
             console.error('Login failed:', error);
         } finally {
-            const { error } = selectErrorNetworks(store.getState())
-            if (error) {
-                setStatus(error)
-            }
         }
     };
     return (
@@ -92,7 +95,7 @@ function AuthorizitonForm() {
                         </div>
 
                         {status && <div className="text-start text-danger mb-3  mt-2 small">
-                            {status}
+                            {error}
                         </div>}
 
                         <button type="submit" className={`btn ${isValid && dirty ? 'btn-primary' : 'btn-outline'}  w-100 rounded-1`} disabled={isSubmitting || !isValid || !dirty}>
@@ -105,4 +108,4 @@ function AuthorizitonForm() {
     )
 }
 
-export default AuthorizitonForm
+export default AuthorizationForm

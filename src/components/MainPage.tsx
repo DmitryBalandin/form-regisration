@@ -1,17 +1,11 @@
 import signCompany from '../assets/Symbol.svg'
 import buttonSvg from '../assets/Button _ Variant (optional).svg'
-import type { ReactNode } from 'react'
 import { useDispatch } from 'react-redux'
 import { clearUser } from '../slices/authSlice'
 import { type AppDispatch } from '../slices/store'
+import type { MainPageProps } from '../types/componenets/components'
 
-interface MainPage {
-    children: ReactNode
-    isAuthorization: boolean
-}
-
-
-function MainPage({ children, isAuthorization }: MainPage) {
+function MainPage({ children, isAuthorization }: MainPageProps) {
     const dispatch:AppDispatch = useDispatch()
     const handleButtonBack = ():void => {
         dispatch(clearUser())
